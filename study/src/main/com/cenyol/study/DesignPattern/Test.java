@@ -1,5 +1,8 @@
 package com.cenyol.study.DesignPattern;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by cenyol on 15/03/2017.
  */
@@ -9,5 +12,6 @@ public class Test {
         System.out.println((byte)-1);
         System.out.println((char)(byte)-1);
         System.out.println((int)(char)(byte)-1);
+
     }
 }
