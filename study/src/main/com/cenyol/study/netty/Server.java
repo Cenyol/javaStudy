@@ -9,6 +9,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
+
 /**
  * Discards any incoming data.
  */
@@ -27,13 +30,7 @@ public class Server {
             ServerBootstrap b = new ServerBootstrap(); // (2)
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class) // (3)
-                    .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
-                        @Override
-                        public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new TimeServerHandler());
-//                            ch.pipeline().addLast(new DiscardServerHandler());
-                        }
-                    })
+                    .childHandler(new ChildChannelHandler())
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
                     .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
 
@@ -47,6 +44,15 @@ public class Server {
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
+        }
+    }
+
+    private class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
+        @Override
+        protected void initChannel(SocketChannel socketChannel) throws Exception {
+            socketChannel.pipeline().addLast(new LineBasedFrameDecoder(1024));
+            socketChannel.pipeline().addLast(new StringDecoder());
+            socketChannel.pipeline().addLast(new TimeServerHandler());
         }
     }
 
