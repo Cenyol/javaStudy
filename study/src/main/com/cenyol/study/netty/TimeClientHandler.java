@@ -9,16 +9,14 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-import java.util.Date;
-
 public class TimeClientHandler extends ChannelInboundHandlerAdapter {
     private int counter = 0;
     private byte[] req;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ByteBuf msg = null;
-        req = ("QUERY TIME ORD" + System.getProperty("line.separator")).getBytes();
+        ByteBuf msg;
+        req = ("QUERY TIME ORD%_&").getBytes();
         for (int i = 0; i < 100; i++) {
             msg = Unpooled.buffer(req.length);
             msg.writeBytes(req);

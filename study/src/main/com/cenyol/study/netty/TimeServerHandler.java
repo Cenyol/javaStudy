@@ -22,7 +22,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
         String body = (String) msg;
         System.out.println("The time server receive order : " + body + "; the counter is " + ++counter);
         String currentTime = "QUERY TIME ORD".equalsIgnoreCase(body) ? new Date(System.currentTimeMillis()).toString() : "BAD ORDER";
-        currentTime += System.getProperty("line.separator");
+        currentTime += "%_&";
 
         ByteBuf resp = Unpooled.copiedBuffer(currentTime.getBytes());
         ctx.writeAndFlush(resp);
