@@ -11,6 +11,8 @@ import java.util.Date;
  */
 public class TimeServerHandler extends ChannelInboundHandlerAdapter {
     private int counter = 0;
+    private String queryOrder = "QUERY TIME ORD";
+    private String badOrder = "BAD ORDER";
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
@@ -21,7 +23,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         String body = (String) msg;
         System.out.println("The time server receive order : " + body + "; the counter is " + ++counter);
-        String currentTime = "QUERY TIME ORD".equalsIgnoreCase(body) ? new Date(System.currentTimeMillis()).toString() : "BAD ORDER";
+        String currentTime = queryOrder.equalsIgnoreCase(body) ? new Date(System.currentTimeMillis()).toString() : badOrder;
         currentTime += "%_&";
 
         ByteBuf resp = Unpooled.copiedBuffer(currentTime.getBytes());

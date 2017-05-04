@@ -16,7 +16,7 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ByteBuf msg;
-        req = ("QUERY TIME ORD%_&").getBytes();
+        req = ("QUERY TIME ORD").getBytes();
         for (int i = 0; i < 100; i++) {
             msg = Unpooled.buffer(req.length);
             msg.writeBytes(req);
